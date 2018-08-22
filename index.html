@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <h1>AJAX XMLHttp Training</h1>
+    <button id="b1" onclick="runThis()">Get the Brand List.</button><hr>
+    <span id="span1"></span>
+<script>
+/*This function executes the new promise, places XMLHttprequest and converts the 
+array into capital letters */
+function getInfo(){
+      return new Promise(function(resolve, reject){
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET','cars.json', true);
+          xhr.onreadystatechange= function(){
+              if(this.readyState === 4 && this.status ===200){
+                  var thr = JSON.parse(this.responseText);
+                  var xth = thr.map(function(x){
+                      return x.toUpperCase();
+                  })
+                  document.getElementById("span1").innerHTML=xth;
+              }
+              else {
+                  reject(Error(xhr.statusText));
+              }
+          }
+        xhr.send();
+      })
+  }
+/*This functions is activated when button is clicked, it calls getInfo and sets
+a time out. The array length in alphabet is 50 (will be 50 miliseconds) - that's too short to see if the 
+setTimeout is working. I set it to two seconds. Either way, the code executes perfect*/
+  function runThis(){
+    //   setTimeout(getInfo, getInfo.length);
+      setTimeout(getInfo, 2000);
+  }
+
+</script>
+</body>
+
+</html>
